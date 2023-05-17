@@ -137,7 +137,7 @@
 
             <div class="row justify-content-center">
                 <div class="col-md-5">
-                    <div class="row">
+                    <!-- <div class="row">
                       <form action="/register" method="post">
                         <div class="col-md-12 form-group">
                             <label for="username">Username</label>
@@ -159,13 +159,33 @@
                           <label for="adminkey">admin key</label>
                           <input type="adminkey" id="adminkey" class="form-control form-control-lg">
                       </div>
-                      </form>
+                      
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <input type="submit" value="Register" class="btn btn-primary btn-lg px-5">
                         </div>
                     </div>
+                  </form> -->
+                  <form action="/register" method="post">
+                    <div class="mb-3">
+                      <label for="email" class="form-label">email</label>
+                      <input type="text" class="form-control" id="email" name="email">
+                    </div>
+                    <div class="mb-3">
+                      <label for="Password" class="form-label">Password</label>
+                      <input type="password" class="form-control" id="Password" name="password">
+                    </div>
+                    <div class="mb-3">
+                      <label for="Username" class="form-label">Username</label>
+                      <input type="text" class="form-control" id="Username" name="username">
+                    </div>
+                    <div class="mb-3">
+                      <label for="adminkey" class="form-label">adminkey</label>
+                      <input type="password" class="form-control" id="adminkey" name="adminkey">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                  </form>
                 </div>
             </div>
             
