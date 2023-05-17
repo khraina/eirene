@@ -2,14 +2,19 @@ from flask import Flask,render_template,request,session,redirect,url_for
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
-
-
+import pandas as pd
+from werkzeug.utils import secure_filename
+import os
 
 db=SQLAlchemy()
 DB_NAME= 'database.db'
 app = Flask(__name__)
 app.config['SECRET_KEY']='bene'
 app.config['SQLALCHEMY_DATABASE_URI']=f'sqlite:///{DB_NAME}'
+
+UPLOAD_FOLDER = 'static/files'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 adminkey='z'
 
@@ -90,6 +95,34 @@ def register():
 
   else:
       return render_template('register.html')
+    
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+  if request.method == 'POST':
+        # Access the uploaded file
+        file = request.files['csv_file']
+
+       
+
+        # Save the file to the static/files folder
+        filename = secure_filename(file.filename)
+        file_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+
+        # Process the file (e.g., read and manipulate the CSV data)
+        df = pd.read_csv(file_path)
+        print(df)
+        # Your processing logic goes here
+
+        return "File uploaded and processed successfully!"
+  return render_template('upload.html')
+
+
+
+
+
+
+
 
 @app.route('/logout')
 @login_required
