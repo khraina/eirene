@@ -29,10 +29,10 @@ def create_database(app):
         
 class User(db.Model,UserMixin):
     id = db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String,unique=True)
+    email=db.Column(db.String,unique=True)
     fullName=db.Column(db.String(100))
     password=db.Column(db.String(100))  
-    
+    username=db.Column(db.String(100))
     
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -85,10 +85,11 @@ def register():
         username = request.form['username']
         password = request.form['password']
         email   = request.form['email']
+        fullName   = request.form['fullName']
         adminkey = request.form['adminkey']
         if adminkey != 'aisat123':
             return redirect(url_for('logint'))   
-        new_user=User(fullName=username,password=password,email=email)
+        new_user=User(username=username,password=password,email=email,fullName=fullName)
         db.session.add(new_user)
         db.session.commit()
         return redirect(url_for('logint'))
