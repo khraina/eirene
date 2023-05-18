@@ -68,9 +68,9 @@ def logins():
 @app.route("/logint", methods=['GET', 'POST'])
 def logint():
   if request.method == 'POST':
-    username= request.form['email']
+    email = request.form['email']
     password = request.form['password']
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(email=email).first()
     if user:
         if user.password == password:
           login_user(user, remember=True)
