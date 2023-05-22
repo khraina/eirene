@@ -106,14 +106,17 @@ def upload():
   if request.method == 'POST':
         # Access the uploaded file
         file = request.files['csv_file']
-
+        sem=request.form.get("semester")
+        bat=request.form.get("batch")
        
 
         # Save the file to the static/files folder
-        filename = secure_filename(file.filename)
+        filename = f"s{sem}b{bat}.csv"
+        #filename = secure_filename(file.filename)
         file_path = os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], filename)
         file.save(file_path)
 
+        print(filename)
         # Process the file (e.g., read and manipulate the CSV data)
         df = pd.read_csv(file_path)
         print(df)
@@ -137,7 +140,9 @@ def upload():
  
 
 
-
+@app.route('/view')
+def view():
+  return render_template('view.html')
 
 
 
