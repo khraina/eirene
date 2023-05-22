@@ -3,7 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
 import pandas as pd
-from werkzeug.utils import secure_filename
+import numpy as np
+from werkzeug.utils import secure_filename 
 import os
 
 db=SQLAlchemy()
@@ -47,8 +48,10 @@ def load_user(id):
 def home():
   return render_template('index.html')
 
-@app.route("/dash")
+@app.route("/dash",methods=['GET','POST'])
+@login_required
 def dash():
+  name = User.query.filter_by().first()
   return render_template('dash.html')
 
 @app.route("/about")
@@ -99,6 +102,7 @@ def register():
     
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+  df = None
   if request.method == 'POST':
         # Access the uploaded file
         file = request.files['csv_file']
@@ -113,11 +117,24 @@ def upload():
         # Process the file (e.g., read and manipulate the CSV data)
         df = pd.read_csv(file_path)
         print(df)
-        # Your processing logic goes here
+      
+        grades = df['sub1'].values
 
+# Define the condition for failing grades
+        condition = grades < 60
+
+# Get the values that satisfy the condition
+        failed_grades = grades[condition]
+
+# Count the number of failing grades
+        num_failed = len(failed_grades)
+
+        print("Number of people failed:", num_failed)
+        # Your processing logic goes here
+        array = df.values
         return "File uploaded and processed successfully!"
   return render_template('upload.html')
-
+ 
 
 
 
