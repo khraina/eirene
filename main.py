@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,session,redirect,url_for
+from flask import Flask,render_template,request,session,redirect,url_for,Response, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user, UserMixin
@@ -140,8 +140,18 @@ def upload():
  
 
 
-@app.route('/view')
+@app.route('/view', methods=['GET', 'POST'])
 def view():
+
+  if request.method == 'POST':
+    sem=request.form.get("semester")
+    bat=request.form.get("batch")
+       
+    filename = "static/files/"+f"s{sem}b{bat}.csv"
+    print(filename)
+    df=pd.read_csv(filename);
+    print(df)
+    
   return render_template('view.html')
 
 
@@ -156,4 +166,4 @@ def logout():
 # main driver function
 if __name__ == '__main__':
     create_database(app)
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=False)
